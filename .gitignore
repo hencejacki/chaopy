@@ -6,6 +6,7 @@
 *.lo
 *.o
 *.obj
+GenFiles/
 
 # Precompiled Headers
 *.gch
@@ -30,3 +31,11 @@
 *.exe
 *.out
 *.app
+bin/
+
+# Visual Studio
+*.vcxproj.user
+x64/
+test/
+target/
+.vs/
