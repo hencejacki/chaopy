@@ -48,6 +48,14 @@ jobs:
         mirror: "http://mirrors.ocf.berkeley.edu/qt/"
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
+    - name: Set Qt Version for MSBuild
+      run: |
+        setx QT_MSVC_DIR "C:\Qt\5.15.2\msvc2019_64"
+        setx PATH "%QT_MSVC_DIR%\bin;%PATH%"
+    - name: Generate Qt Configuration
+      run: |
+        echo "<Project><PropertyGroup><QtInstallDir>C:\Qt\5.15.2\msvc2019_64</QtInstallDir></PropertyGroup></Project>" > src/QtMsBuild/qt_vars.targets
+        
     # Setup MSBuild
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1
