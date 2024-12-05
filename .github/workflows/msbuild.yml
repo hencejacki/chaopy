@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  SOLUTION_FILE_PATH: .
+  SOLUTION_FILE_PATH: Chaopy.sln
   BUILD_CONFIGURATION: Release
 
 permissions:
@@ -16,15 +16,25 @@ permissions:
 jobs:
   build:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        platform: [windows]
+        arch: [x64]
+        qt_version: [5.15.2]
+        qtarch: [win64_msvc2019_64]
+
     steps:
     - uses: actions/checkout@v4
-    # install qt
+
+    # Cache Qt
     - name: Cache Qt
       id: cache-qt
       uses: actions/cache@v1
       with:
         path: ../Qt
         key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
+
+    # Install Qt
     - name: Installing Qt - ${{ matrix.arch }}
       uses: jurplel/install-qt-action@v2
       with:
@@ -32,24 +42,22 @@ jobs:
         arch: ${{ matrix.qtarch }}
         mirror: "http://mirrors.ocf.berkeley.edu/qt/"
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
-    # install msbuild
+
+    # Setup MSBuild
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1
-    # install nsis
-    - name: Install NISI
+
+    # Install NSIS
+    - name: Install NSIS
       uses: repolevedavaj/install-nsis@v1.0.1
       with:
         nsis-version: '3.10'
-    # build solution
+
+    # Build solution
     - name: Build the solution
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:OutDir=bin\Release\ ${{env.SOLUTION_FILE_PATH}}
+
     # Show binary files
     - name: Show binary files
-      working-directory: ${{env.GITHUB_WORKSPACE}}\bin\${{env.BUILD_CONFIGURATION}}
       run: |
-        dir /b
-    
-    
-    
-        
+        dir /b bin\${{env.BUILD_CONFIGURATION}}
