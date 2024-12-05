@@ -7,6 +7,7 @@
 
 #include "./Config/ChaopySetting.h"
 #include "./Core/ChaopyMonitor.h"
+#include "./Core/ChaopyCopy.h"
 #include "./UI/AppWindow.h"
 #include "version.h"
 
@@ -59,15 +60,16 @@ int main(int argc, char** argv)
 
 	// Create observer
 	auto appWObs = std::make_shared<AppWindow>();
+	
+	auto chaoCopy = std::make_shared<ChaopyCopy>();
 
 	// Attach observer
 	monitor->AttachObs(appWObs);
 
+	monitor->AttachObs(chaoCopy);
+
 	// Run
 	int ret = app.exec();
-
-	// Detach
-	monitor->DetachObs(appWObs);
 
 	return ret;
 }

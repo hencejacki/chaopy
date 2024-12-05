@@ -10,11 +10,10 @@
 
 ChaopyMonitor::ChaopyMonitor()
 	: monitorInfoCnt_(0UL)
-	, mt_(std::make_shared<MonitorThread>())
+	, mt_(std::make_unique<MonitorThread>())
 {
 	qRegisterMetaType<FileStateNotification_t>("FileStateNotification_t");
 	connect(mt_.get(), &MonitorThread::notificationTriggerd, this, &ChaopyMonitor::notifyObservers);
-	connect(mt_.get(), &MonitorThread::threadFinished, this, &ChaopyMonitor::onMonitorThreadExit);
 	initMonitor();
 }
 
@@ -23,18 +22,13 @@ ChaopyMonitor::~ChaopyMonitor()
 	observers_.clear();
 	if (mt_->isRunning())
 	{
-		mt_->quit();
+		mt_->exit();
 	}
 }
 
 void ChaopyMonitor::AttachObs(std::shared_ptr<ChaopyObserver> obs)
 {
 	observers_.insert(obs);
-}
-
-void ChaopyMonitor::DetachObs(std::shared_ptr<ChaopyObserver> obs)
-{
-	observers_.erase(obs);
 }
 
 void ChaopyMonitor::notifyObservers(const FileStateNotification_t& stNotification)
@@ -45,6 +39,7 @@ void ChaopyMonitor::notifyObservers(const FileStateNotification_t& stNotificatio
 		mt_->Stop();
 		// Reload when config file changed
 		ChaopySetting::GetInstance()->LoadConfig(true);
+		initMonitor();
 		return;
 	}
 
@@ -125,9 +120,4 @@ void ChaopyMonitor::initMonitor()
 
 	mt_->SetHandles(std::move(vecHandles));
 	mt_->start();
-}
-
-void ChaopyMonitor::onMonitorThreadExit()
-{
-	initMonitor();
 }

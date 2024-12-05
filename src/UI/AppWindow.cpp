@@ -62,21 +62,6 @@ void AppWindow::update(const FileStateNotification_t& stNotification)
 		.arg(stNotification.filePath.c_str())
 		.arg(stNotification.lastModifyTime.c_str());
 	ui.logTextEdit->appendPlainText(logFormat);
-
-	// Test
-	size_t pos = stNotification.filePath.find_last_of("\\");
-	if (std::string::npos == pos)
-	{
-		return;
-	}
-	std::string monitorPath = stNotification.filePath.substr(0, pos);
-	std::string target = ChaopySetting::GetInstance()->GetTargetPathByMonitorPath(monitorPath);
-	QString targetPath = QString("%1\\%2").arg(target.c_str()).arg(stNotification.fileName.c_str());
-	QFile src(stNotification.filePath.c_str());
-	if (src.copy(QDir::toNativeSeparators(targetPath)))
-	{
-		spdlog::info("Move {} into {} success.", stNotification.filePath.c_str(), targetPath.toUtf8().constData());
-	}
 }
 
 void AppWindow::onTrayActivated(QSystemTrayIcon::ActivationReason reason)

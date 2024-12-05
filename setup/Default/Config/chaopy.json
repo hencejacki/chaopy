@@ -1,0 +1,9 @@
+{
+	"monitors": [
+		{
+			"path": "C:\\Example\\Monitor\\Path",
+			"target": "C:\\Example\\Target\\Path",
+			"recursive": true
+		}
+	]
+}

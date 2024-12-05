@@ -47,6 +47,9 @@
     <ClCompile Include="Core\MonitorThread.cpp">
       <Filter>源文件\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Core\ChaopyCopy.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config\ChaopySetting.h">
@@ -72,6 +75,9 @@
     </ClInclude>
     <ClInclude Include="Model\ChaopyModel.h">
       <Filter>源文件\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ChaopyCopy.h">
+      <Filter>源文件\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

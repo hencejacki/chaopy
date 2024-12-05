@@ -39,3 +39,5 @@ x64/
 test/
 target/
 .vs/
+install/
+Logs/

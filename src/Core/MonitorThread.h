@@ -30,7 +30,6 @@ public:
 	void Stop();
 
 signals:
-	void threadFinished();
 	void notificationTriggerd(const FileStateNotification_t&);
 
 protected:

@@ -11,6 +11,7 @@ MonitorThread::MonitorThread()
 MonitorThread::~MonitorThread()
 {
 	Stop();
+	wait();
 }
 
 void MonitorThread::SetHandles(std::vector<MonitorInfoW_t>&& infos)
@@ -140,8 +141,6 @@ void MonitorThread::run()
 		}
 #endif
 	}
-
-	emit threadFinished();
 }
 
 void MonitorThread::Stop()

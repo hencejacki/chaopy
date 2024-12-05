@@ -27,19 +27,15 @@ public:
 
 	void AttachObs(std::shared_ptr<ChaopyObserver>);
 
-	void DetachObs(std::shared_ptr<ChaopyObserver>);
-
 private:
 	void initMonitor();
 
 public slots:
 	void notifyObservers(const FileStateNotification_t&);
 
-	void onMonitorThreadExit();
-
 private:
 	std::set<std::shared_ptr<ChaopyObserver>> observers_;
-	std::shared_ptr<MonitorThread> mt_;
+	std::unique_ptr<MonitorThread> mt_;
 #ifdef WIN32
 	DWORD monitorInfoCnt_;
 #endif
