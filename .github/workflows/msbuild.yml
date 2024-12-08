@@ -48,9 +48,15 @@ jobs:
         mirror: "http://mirrors.ocf.berkeley.edu/qt/"
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
+    - name: Set QTDIR and QtToolsPath
+      shell: bash
+      run: |
+        echo "QTDIR=$QT_ROOT_DIR" >> "$GITHUB_ENV"
+        echo "QtToolsPath=$QT_ROOT_DIR/bin" >> "$GITHUB_ENV"
+    
     - name: Generate Qt Configuration
       run: |
-        echo "<Project><PropertyGroup><QtInstallDir>$Qt5_Dir</QtInstallDir></PropertyGroup></Project>" > src/QtMsBuild/qt_vars.targets
+        echo "<Project><PropertyGroup><QtInstallDir>$QTDIR</QtInstallDir></PropertyGroup></Project>" > src/QtMsBuild/qt_vars.targets
       
     # Setup MSBuild
     - name: Setup MSBuild
@@ -64,7 +70,7 @@ jobs:
 
     # Build solution
     - name: Build the solution
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:OutDir=bin\Release\ /p:QtInstallDir=${Qt5_Dir} ${{env.SOLUTION_FILE_PATH}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:OutDir=bin\Release\ /p:QtInstallDir=${{env.QTDIR}} ${{env.SOLUTION_FILE_PATH}}
 
     # Show binary files
     - name: Show binary files
