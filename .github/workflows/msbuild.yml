@@ -47,12 +47,12 @@ jobs:
         arch: ${{ matrix.qtarch }}
         mirror: "http://mirrors.ocf.berkeley.edu/qt/"
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
+        dir: '${{ github.workspace }}'
 
-    - name: Set QTDIR and QtToolsPath
-      shell: bash
+    - name: Configure
+      shell: cmake -P {0}
       run: |
-        echo "QTDIR=$QT_ROOT_DIR" >> "$GITHUB_ENV"
-        echo "QtToolsPath=$QT_ROOT_DIR/bin" >> "$GITHUB_ENV"
+        message("Currently: $ENV{Qt6_DIR}, $ENV{QT_ROOT_DIR}")
     
     - name: Generate Qt Configuration
       run: |
