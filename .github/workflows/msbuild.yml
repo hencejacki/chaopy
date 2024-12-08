@@ -52,9 +52,9 @@ jobs:
     - name: Configure
       shell: powershell
       run: |
-        echo ${env:Qt6_DIR}
+        echo ${env:Qt5_DIR}
         echo ${env:QT_ROOT_DIR}
-        ls ${{github.workspace}}/../Qt/
+        ls ${{github.workspace}}/Qt/5.15.2/msvc2019_64
     
     # - name: Generate Qt Configuration
     #   run: |
