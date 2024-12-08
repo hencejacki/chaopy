@@ -52,7 +52,8 @@ jobs:
     - name: Configure
       shell: powershell
       run: |
-        message("Currently: ${env:Qt6_DIR}, ${env:QT_ROOT_DIR}")
+        echo ${env:Qt6_DIR}
+        echo ${env:QT_ROOT_DIR}
         ls ${{github.workspace}}/../Qt/
     
     # - name: Generate Qt Configuration
