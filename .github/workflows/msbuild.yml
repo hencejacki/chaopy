@@ -52,6 +52,9 @@ jobs:
       run: |
         echo "<Project><PropertyGroup><QtInstallDir>$QT_ROOT_DIR</QtInstallDir></PropertyGroup></Project>" > src/QtMsBuild/qt_vars.targets
         
+    - name: Echo Qt Root dir
+      run: echo $QT_ROOT_DIR
+      
     # Setup MSBuild
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1
