@@ -7,10 +7,12 @@ on:
     branches: [ "main" ]
 
 env:
+  PROJECT_NAME: Chaopy
   SOLUTION_FILE_PATH: Chaopy.sln
   EXECUTABLE_FILE_PATH: Chaopy.exe
   BUILD_CONFIGURATION: Release
   QT_ARCH: msvc2019_64
+  BUILD_VERSION: v1.0.0
 
 permissions:
   contents: read
@@ -71,3 +73,18 @@ jobs:
       run: makensis -VERSION
     - name: Print NSIS compile flags
       run: makensis -HDRINFO
+
+    - name: Package with NSIS
+      run: |
+        makensis ${{github.workspace}}\setup\Chaopy_Setting.nsi
+
+    - name: Upload Zip
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{env.PROJECT_NAME}}_${{matrix.platform}}_${{matrix.arch}}_${{env.BUILD_VERSION}}
+        path: ${{github.workspace}}\bin\${{env.BUILD_CONFIGURATION}}\
+    
+    - name: Upload installer
+      uses: actions/upload-artifact@v4
+      with:
+        path: ${{github.workspace}}\setup\${{env.PROJECT_NAME}}_${{matrix.platform}}_${{matrix.arch}}_${{env.BUILD_VERSION}}.exe
