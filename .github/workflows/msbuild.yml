@@ -9,6 +9,7 @@ on:
 env:
   SOLUTION_FILE_PATH: Chaopy.sln
   BUILD_CONFIGURATION: Release
+  QT_ARCH: msvc2019_64
 
 permissions:
   contents: read
@@ -48,33 +49,26 @@ jobs:
         mirror: "http://mirrors.ocf.berkeley.edu/qt/"
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
         dir: '${{ github.workspace }}'
-
-    - name: Configure
-      shell: powershell
-      run: |
-        echo ${env:Qt5_DIR}
-        echo ${env:QT_ROOT_DIR}
-        ls ${{github.workspace}}/Qt/5.15.2/msvc2019_64
     
     # - name: Generate Qt Configuration
     #   run: |
     #     echo "<Project><PropertyGroup><QtInstallDir>$QTDIR</QtInstallDir></PropertyGroup></Project>" > src/QtMsBuild/qt_vars.targets
       
-    # # Setup MSBuild
-    # - name: Setup MSBuild
-    #   uses: microsoft/setup-msbuild@v1
+    # Setup MSBuild
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
 
-    # # Install NSIS
-    # - name: Install NSIS
-    #   uses: repolevedavaj/install-nsis@v1.0.1
-    #   with:
-    #     nsis-version: '3.10'
+    # Install NSIS
+    - name: Install NSIS
+      uses: repolevedavaj/install-nsis@v1.0.1
+      with:
+        nsis-version: '3.10'
 
-    # # Build solution
-    # - name: Build the solution
-    #   run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:OutDir=bin\Release\ ${{env.SOLUTION_FILE_PATH}}
+    # Build solution
+    - name: Build the solution
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:OutDir=bin\Release\ /p:QtInstallDir=${{github.workspace}}\Qt\${{matrix.qt_version}}\${{env.QT_ARCH}} ${{env.SOLUTION_FILE_PATH}}
 
-    # # Show binary files
-    # - name: Show binary files
-    #   run: |
-    #     dir /b bin\${{env.BUILD_CONFIGURATION}}
+    # Show binary files
+    - name: Show binary files
+      run: |
+        dir /b bin\${{env.BUILD_CONFIGURATION}}
