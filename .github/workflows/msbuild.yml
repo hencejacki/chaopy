@@ -70,7 +70,7 @@ jobs:
 
     # Build solution
     - name: Build the solution
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:OutDir=bin\Release\ /p:QtInstallDir=${{env.QTDIR}} ${{env.SOLUTION_FILE_PATH}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:OutDir=bin\Release\ ${{env.SOLUTION_FILE_PATH}}
 
     # Show binary files
     - name: Show binary files
