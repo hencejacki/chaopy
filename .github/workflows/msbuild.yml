@@ -57,11 +57,17 @@ jobs:
     # Build solution
     - name: Build the solution
       run: |
-        msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:DebugSymbols=false /p:QtInstallDir=${{github.workspace}}\Qt\${{matrix.qt_version}}\${{env.QT_ARCH}} ${{env.SOLUTION_FILE_PATH}}
+        msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:DebugType=None /p:DebugSymbols=false /p:QtInstallDir=${{github.workspace}}\Qt\${{matrix.qt_version}}\${{env.QT_ARCH}} ${{env.SOLUTION_FILE_PATH}}
         windeployqt ${{github.workspace}}\bin\${{env.BUILD_CONFIGURATION}}\${{env.EXECUTABLE_FILE_PATH}} --no-translations
-    
-    # Show binary files
-    - name: Show binary files
-      shell: powershell
+        
+    - name: Install NSIS
       run: |
-        ls ${{github.workspace}}\bin\${{env.BUILD_CONFIGURATION}}
+        iwr -useb get.scoop.sh -outfile 'install.ps1'
+        .\install.ps1 -RunAsAdmin
+        scoop update
+        scoop bucket add extras
+        scoop install nsis
+    - name: Print NSIS version
+      run: makensis -VERSION
+    - name: Print NSIS compile flags
+      run: makensis -HDRINFO
