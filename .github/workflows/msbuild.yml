@@ -61,7 +61,7 @@ jobs:
       run: |
         msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:DebugSymbols=false /p:DebugType=None /p:QtInstallDir=${{github.workspace}}\Qt\${{matrix.qt_version}}\${{env.QT_ARCH}} ${{env.SOLUTION_FILE_PATH}}
         windeployqt ${{github.workspace}}\bin\${{env.BUILD_CONFIGURATION}}\${{env.EXECUTABLE_FILE_PATH}} --no-translations
-# del ${{github.workspace}}\bin\${{env.BUILD_CONFIGURATION}}\*.pdb
+        del ${{github.workspace}}\bin\${{env.BUILD_CONFIGURATION}}\*.pdb
         
     - name: Install NSIS
       run: |
@@ -88,4 +88,5 @@ jobs:
     - name: Upload installer
       uses: actions/upload-artifact@v4
       with:
+        name: ${{env.PROJECT_NAME}}_${{matrix.platform}}_${{matrix.arch}}_${{env.BUILD_VERSION}}.exe
         path: ${{github.workspace}}\setup\${{env.PROJECT_NAME}}_${{matrix.platform}}_${{matrix.arch}}_${{env.BUILD_VERSION}}.exe
