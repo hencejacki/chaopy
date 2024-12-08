@@ -48,13 +48,9 @@ jobs:
         mirror: "http://mirrors.ocf.berkeley.edu/qt/"
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
-    - name: Set Qt Version for MSBuild
-      run: |
-        setx QT_MSVC_DIR "C:\Qt\5.15.2\msvc2019_64"
-        setx PATH "%QT_MSVC_DIR%\bin;%PATH%"
     - name: Generate Qt Configuration
       run: |
-        echo "<Project><PropertyGroup><QtInstallDir>C:\Qt\5.15.2\msvc2019_64</QtInstallDir></PropertyGroup></Project>" > src/QtMsBuild/qt_vars.targets
+        echo "<Project><PropertyGroup><QtInstallDir>$(QT_ROOT_DIR)</QtInstallDir></PropertyGroup></Project>" > src/QtMsBuild/qt_vars.targets
         
     # Setup MSBuild
     - name: Setup MSBuild
@@ -68,7 +64,7 @@ jobs:
 
     # Build solution
     - name: Build the solution
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:OutDir=bin\Release\ /p:QtInstallDir=C:\Qt\5.15.2\msvc2019_64 ${{env.SOLUTION_FILE_PATH}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:OutDir=bin\Release\ /p:QtInstallDir=${QT_ROOT_DIR} ${{env.SOLUTION_FILE_PATH}}
 
     # Show binary files
     - name: Show binary files
