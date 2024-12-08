@@ -50,7 +50,7 @@ jobs:
 
     - name: Generate Qt Configuration
       run: |
-        echo "<Project><PropertyGroup><QtInstallDir>$(QT_ROOT_DIR)</QtInstallDir></PropertyGroup></Project>" > src/QtMsBuild/qt_vars.targets
+        echo "<Project><PropertyGroup><QtInstallDir>$QT_ROOT_DIR</QtInstallDir></PropertyGroup></Project>" > src/QtMsBuild/qt_vars.targets
         
     # Setup MSBuild
     - name: Setup MSBuild
