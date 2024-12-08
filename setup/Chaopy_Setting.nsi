@@ -1,8 +1,8 @@
 
-!define PRODUCT_VERSION "V1.0.0"
+!define PRODUCT_VERSION "v1.0.0"
 !define PRODUCT_NAME "Chaopy"
 !define PRODUCT_MODE "Release"
-!define OUTPUT_FILE "chaopy_installer_win_x64_${PRODUCT_VERSION}.exe"
+!define OUTPUT_FILE "Chaopy_windows_x64_${PRODUCT_VERSION}.exe"
 !define INSTALL_DIR "$PROGRAMFILES\Chaopy"
 
 OutFile ${OUTPUT_FILE}
