@@ -38,7 +38,7 @@ jobs:
     # Cache Qt
     - name: Cache Qt
       id: cache-qt
-      uses: actions/cache@v1
+      uses: actions/cache@v4
       with:
         path: ../Qt
         key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
@@ -91,3 +91,4 @@ jobs:
       with:
         name: ${{env.PROJECT_NAME}}_${{matrix.platform}}_${{matrix.arch}}_${{env.BUILD_VERSION}}_Installer
         path: ${{github.workspace}}\setup\${{env.PROJECT_NAME}}_${{matrix.platform}}_${{matrix.arch}}_${{env.BUILD_VERSION}}.exe
+
