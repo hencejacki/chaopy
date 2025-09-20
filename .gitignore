@@ -40,4 +40,6 @@ test/
 target/
 .vs/
 install/
+
 Logs/
+fix/
